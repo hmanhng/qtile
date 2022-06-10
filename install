@@ -15,12 +15,16 @@ done
 wget -q --show-progress https://github.com/hmanhng/xdm/raw/main/xdm.sh && sudo sh ./xdm.sh && rm -f xdm.sh
 
 stow qtile
+pip install psutil iwlib
 
 curl -fsSL https://fnm.vercel.app/install | bash
 ~/.fnm/fnm install 16.15.0
 
 git config --global user.email "hmanhng@icloud.com"
 git config --global user.name "hmanhng"
+
+cat tmp/bamboo.txt | sudo tee -a /etc/profile
+env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['xkb:us::eng', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
 
 sudo sed -i 's/#AutoEnable=false/AutoEnable=true/g' /etc/bluetooth/main.conf
 
@@ -38,14 +42,15 @@ wget -q --show-progress https://github.com/NyaMisty/AltServer-Linux/releases/dow
 wget -q --show-progress https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-linux-x86_64.AppImage -O ~/Applications/rclone-browser.AppImage
 wget -q --show-progress https://github.com/realmazharhussain/gdm-settings/releases/download/v0.5.3/Login_Manager_Settings-nodeps.AppImage -O ~/Applications/gdm-settings.AppImage
 
-#GDM
+# Lightdm
+sudo git clone https://github.com/GabrielTenma/lightdm-gab-gradient.git /usr/share/lightdm-webkit/themes/lightdm-gab-gradient
 sudo cp ~/Pictures/icon.jpg /var/lib/AccountsService/icons/
 cp ~/Pictures/icon.jpg ~/.face
 sudo bash -c "cat dotfiles/icons > /var/lib/AccountsService/users/$USER" && rm ~/icons
+sudo systemctl enable lightdm
 
 sudo systemctl enable systemd-timesyncd
 sudo systemctl enable bluetooth
-# sudo systemctl enable gdm
 
 sudo usermod -aG video $USER
 echo "ideapad_laptop" | sudo tee -a /etc/modules

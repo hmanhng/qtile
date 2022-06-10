@@ -85,14 +85,14 @@ bar = Bar([
     ),
     widget.Clock(
         background=gruvbox['cyan'],
-        format=' %Y-%m-%d %a %I:%M %p'),
+        format=' %Y-%m-%d %a %H:%M'),
     # Prompt(foreground=gruvbox['fg']),
     widget.Systray(
         # padding=10,
         icon_size=21,
-        background='#6e6e6e',
+        background=gruvbox['bg'],
     ),
-    widget.Spacer(length=10, background='#6e6e6e'),
+    widget.Spacer(length=10, background=gruvbox['bg']),
 ],
     # margin=[0, 10, 5, 10],
     background=gruvbox['bg'],

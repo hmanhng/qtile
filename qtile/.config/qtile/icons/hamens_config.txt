@@ -1,0 +1,378 @@
+import os
+import re
+import socket
+import subprocess
+from libqtile import bar, layout, widget, hook
+from libqtile.config import Click, Drag, Group, Key, Match, Screen, Rule
+from libqtile.command import lazy
+from libqtile.lazy import lazy
+from libqtile.widget import Spacer
+from libqtile import qtile
+from itertools import cycle
+from os.path import expanduser
+
+from custom_windowname import CustomWindowName
+from max import Max
+from custom_open_weather import CustomOpenWeather
+
+# Mod keys
+mod = "mod4"
+mod1 = "alt"
+mod2 = "control"
+
+myTerm = "urxvt"
+home = expanduser('~') + '/'
+
+# Workspace and Monitor Functions
+@lazy.function
+def window_to_prev_group(qtile):
+    if qtile.currentWindow is not None:
+        i = qtile.groups.index(qtile.currentGroup)
+        qtile.currentWindow.togroup(qtile.groups[i - 1].name)
+
+@lazy.function
+def window_to_next_group(qtile):
+    if qtile.currentWindow is not None:
+        i = qtile.groups.index(qtile.currentGroup)
+        qtile.currentWindow.togroup(qtile.groups[i + 1].name)
+     
+@lazy.function
+def window_to_previous_screen(qtile):
+    i = qtile.screens.index(qtile.current_screen)
+    if i != 0:
+        group = qtile.screens[i - 1].group.name
+        qtile.current_window.togroup(group)
+
+@lazy.function
+def window_to_next_screen(qtile):
+    i = qtile.screens.index(qtile.current_screen)
+    if i + 1 != len(qtile.screens):
+        group = qtile.screens[i + 1].group.name
+        qtile.current_window.togroup(group)   
+        
+@lazy.function
+def switch_screens(qtile):
+    i = qtile.screens.index(qtile.current_screen)
+    group = qtile.screens[i - 1].group
+    qtile.current_screen.set_group(group)
+
+# Fuction to start QTile with Xmodmap configuration
+@hook.subscribe.startup_once
+def startup_once():
+    startup_xmodmap = home + '.Xmodmap1'
+    subprocess.Popen('setxkbmap -option caps:escape; xmodmap ' + startup_xmodmap, shell=True)
+
+# Keyboard Layer (Xmodmap) Functions
+my_xmodmaps = [".Xmodmap2", ".Xmodmap1"]
+xmm_cycle = cycle(my_xmodmaps)
+def toggle_xmodmap(qtile):
+    current_xmodmap = home + next(xmm_cycle)
+    qtile.cmd_spawn("xmodmap " + current_xmodmap)
+    qtile.cmd_spawn("setxkbmap -option caps:escape")
+ 
+def restore_xmodmap(qtile):
+    qtile.cmd_spawn("setxkbmap -option")
+
+keys = [
+    # Switch between windows
+    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    
+    # Switch between columns
+    Key([mod, "control"], "h", lazy.layout.previous()),
+    Key([mod, "control"], "l", lazy.layout.next()), 
+
+    # Move up/down in current stack.
+    # Moving out of range in Columns layout will create new column.
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(),
+        desc="Move window down"),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+
+    # Move windows between columns,
+    Key([mod, "shift"], "h", lazy.layout.swap_column_left()),
+    Key([mod, "shift"], "l", lazy.layout.swap_column_right()),
+
+    # Grow windows. If current window is on the edge of screen and direction
+    # will be to screen edge - window would shrink.
+    Key([mod], "h", lazy.layout.grow_left(),
+        lazy.layout.shrink(),
+        lazy.layout.decrease_ratio(),
+        lazy.layout.add(),
+        desc="Grow window to the left"),
+    Key([mod], "l", lazy.layout.grow_right(),
+        lazy.layout.grow(),
+        lazy.layout.increase_ratio(),
+        lazy.layout.delete(),
+        desc="Grow window to the right"),
+
+    # Core Functions
+    Key([mod], "Return", lazy.spawn(myTerm), desc="Launch terminal"),
+    Key([mod], "x", lazy.spawn("shutdown now")),
+    Key([mod, "shift"], "x", lazy.spawn("reboot")),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
+    Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod], "z", lazy.spawn("bash /usr/local/bin/i3lock_conf.sh")),
+
+    # Toggle between different layouts as defined below
+    Key([mod], "i", lazy.layout.flip()),
+    Key([mod], "f", lazy.window.toggle_fullscreen()),
+    Key([mod], "o", lazy.prev_layout(), desc="Toggle between layouts"),
+    Key([mod], "p", lazy.next_layout()),
+    
+    # Dmenu
+    #Key([mod], "d", lazy.spawn("bash /usr/local/bin/dmenu.sh")),
+
+    # Rofi
+    Key([mod], "Escape", lazy.spawn("rofi -show drun")),
+        
+    # General Use
+    Key([mod, "shift"], "a", lazy.spawn(myTerm + " -e vim /home/user/.config/qtile/config.py")),
+    Key([mod, "shift"], "s", lazy.spawn(myTerm + " -e vim /home/user/.xprofile")),
+    Key([mod], "w", lazy.spawn("setbg /home/user/Pictures/Wallpapers")),
+    Key([mod], "e", lazy.spawn("thunderbird")),
+    Key([mod, "shift"], "Return", lazy.spawn(myTerm + ' -e ranger')),
+    Key([mod, "control"], "Return", lazy.spawn(myTerm + ' -e unimatrix')),
+    Key([mod], "b", lazy.spawn("blueman-manager")),
+    Key([mod], "n", lazy.spawn("system-config-printer")),
+    Key([mod], "m", lazy.spawn("pavucontrol")),
+    Key([mod, "shift"], "BackSpace", lazy.spawn("rm /home/user/.bash_history")),
+    Key([mod], "space", lazy.spawn("waldl")),
+  
+    # Keyboard Layers
+    #Key([], "Alt_L", lazy.function(toggle_xmodmap)),
+    #Key([], "Alt_R", lazy.function(restore_xmodmap)),
+
+    # Screenshots
+    Key([], "Print", lazy.spawn("scrot Screenshot_%Y-%m-%d_%H-%M-%S.png -e 'mv $f ~/Pictures/Screenshots/'")),
+    Key([mod], "a", lazy.spawn("scrot Screenshot_%Y-%m-%d_%H-%M-%S.png -e 'mv $f ~/Pictures/Screenshots/'")),
+    Key([mod], "s", lazy.spawn("scrot -s Screenshot_%Y-%m-%d_%H-%M-%S.png -e 'mv $f ~/Pictures/Screenshots/'")),
+
+    # Toggle Volume
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer set Master 2%+")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer set Master 2%-")),
+    Key([], "XF86AudioMute", lazy.spawn("amixer set Master 1+ toggle")),
+    Key([mod], "equal", lazy.spawn("amixer set Master 2%+")),
+    Key([mod], "minus", lazy.spawn("amixer set Master 2%-")),
+    Key([mod], "BackSpace", lazy.spawn("amixer set Master 1+ toggle")),
+    
+    # Multimedia Keyes
+    Key([], "XF86AudioStop", lazy.spawn("playerctl stop")),
+    Key([], "XF86AudioPlay", lazy.spawn("playerctl plaY-pause")),
+    Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
+    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
+    Key([mod], "Up", lazy.spawn("playerctl stop")),
+    Key([mod], "Down", lazy.spawn("playerctl play-pause")),
+    Key([mod], "Right", lazy.spawn("playerctl next")),
+    Key([mod], "Left", lazy.spawn("playerctl previous")),
+
+    # Toggle Backlight
+    Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 10")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 10")),
+    Key([mod, "shift"], "equal", lazy.spawn("xbacklight -inc 10")),
+    Key([mod, "shift"], "minus", lazy.spawn("xbacklight -dec 10")),
+
+    # Toggle Monitor Configurations
+    #Key([mod], "comma", lazy.spawn("xrandr --output eDP1 --mode 1920x1080 --pos 0x0 --rotate normal --output DP1 --off --output DP2 --off --output HDMI1 --off --output HDMI2 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off")),
+    #Key([mod], "period", lazy.spawn("xrandr --output eDP1 --off --output DP1 --off --output DP2 --off --output HDMI1 --off --output HDMI2 --primary --mode 1920x1080 --pos 0x0 --rotate right --output VIRTUAL1 --off")),
+    #Key([mod], "slash", lazy.spawn("xrandr --output eDP1 --mode 1920x1080 --pos 1920x0 --rotate normal --output DP1 --off --output DP2 --off --output HDMI1 --off --output HDMI2 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off")), 
+
+    # Switch Monitor Focus (Dual Setup)
+    #Key([mod], "apostrophe", lazy.next_screen()),
+    #Key([mod], "semicolon", lazy.prev_screen()),
+    
+    # Move Windows to Different Monitor
+    #Key([mod, "shift"], "apostrophe", lazy.function(window_to_next_screen)),
+    #Key([mod, "shift"], "semicolon", lazy.function(window_to_previous_screen)),
+    
+]
+
+groups = []
+
+   # Allocate layouts and labels
+
+group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0",]
+group_layouts = ["tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile", "tile",]
+
+for i in range(len(group_names)):
+    groups.append(
+        Group(
+            name=group_names[i],
+            layout=group_layouts[i].lower(),
+        ))
+
+for i in groups:
+    keys.extend([
+        # mod1 + letter of group = switch to group
+        Key([mod], i.name, lazy.group[i.name].toscreen(),
+            desc="Switch to group {}".format(i.name)),
+
+        # mod1 + shift + letter of group = switch to & move focused window to group
+        Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
+            desc="Switch to & move focused window to group {}".format(i.name)),
+        # Or, use below if you prefer not to switch to that group.
+        # # mod1 + shift + letter of group = move focused window to group
+        Key([mod, "control"], i.name, lazy.window.togroup(i.name),
+            desc="move focused window to group {}".format(i.name)),
+        Key([mod, "shift"], "p", lazy.screen.next_group()),	   	
+        Key([mod, "shift"], "o", lazy.screen.prev_group()),    
+    ])
+
+# Colours
+colors = []
+cache='/home/user/.cache/wal/colors'
+def init_colors(cache):
+    with open(cache, 'r') as file:
+        for i in range(8):
+            colors.append(file.readline().strip())
+    colors.append('#ffffff')
+    lazy.reload()
+init_colors(cache)
+
+layouts = [
+        #layout.MonadTall(margin=5, border_width=2, border_focus=colors[2], border_normal=colors[0], new_client_position = "top", ratio=0.5),
+        layout.Tile(margin=5, border_width=2, border_focus=colors[2], border_normal=colors[0], add_on_top=True, expand=True, add_after_last=False, master_length=1, ratio=0.5, shift_windows=False),
+        layout.MonadWide(margin=5, border_width=2, border_focus=colors[2], border_normal=colors[0], new_client_position = "top", ratio=0.5),
+        #layout.Matrix(margin=5, border_width=2, border_focus=colors[2], border_normal=colors[0], new_client_position = "before_current"),
+        #layout.Bsp(margin=5, border_width=2, border_focus=colors[2], border_normal=colors[0], fair=False, border_on_single=True, lower_right=True),
+        #layout.Floating(border_width=2, border_focus=colors[2], border_normal=colors[0]),
+        layout.RatioTile(margin=5, border_width=2, border_focus=colors[2], border_normal=colors[0]),
+        Max(margin=5, border_focus=colors[2], border_normal=colors[0], border_width=2),
+        #layout.Stack(margin=5, border_width=2, border_focus=colors[2], border_normal=colors[0], num_stacks=2)
+        #layout.VerticalTile(margin=5, border_width=2, border_focus=colors[2], border_normal=colors[0]),
+        layout.Columns(margin=5, border_width=2, border_focus=colors[2], border_focus_stack=colors[2], border_normal=colors[0], border_normal_stack=colors[0], border_on_single=True, margin_on_single=5, split=False, num_columns=2, fair=False),
+        #layout.Zoomy(margin=5),
+]
+
+widget_defaults = dict(
+    font = 'Noto Sans',
+    fontsize = 12,
+    foreground = colors[7],
+    background = colors[0],
+    padding = 5,
+)
+extension_defaults = widget_defaults.copy()
+
+screens = [
+    Screen(
+        top=bar.Bar(
+            [
+                widget.GroupBox(
+                    font = "Noto Sans",
+                    fontsize = 12,
+                    margin_y = 3,
+                    margin_x = 0,
+                    padding_y = 5,
+                    padding_x = 4,
+                    borderwidth = 1,
+                    disable_drag = True,
+                    active = colors[2],
+                    inactive = colors[7],
+                    rounded = False,
+                    highlight_method = "block",
+                    block_highlight_text_color = colors[7],
+                    this_current_screen_border = colors[2],
+                    urgent_alert_method = "block",
+                    urgent_border = colors[4],
+                ),
+                widget.CurrentLayoutIcon(
+                    padding = 0,
+                    scale = 0.7,
+                ),         
+                CustomWindowName(
+                    highlight_color = colors[2],
+                ),
+                widget.Systray(
+                    icon_size=20,
+                ),
+                widget.TextBox(
+                    text = " ",
+                    padding = 2,
+                ),
+                widget.BatteryIcon(
+                    update_interval = 0.2,
+                ),
+                widget.Battery(
+                    update_interval = 0.2,
+                    format="{percent:2.0%}"
+	            ),
+                widget.TextBox(
+                    text = " ",
+                    padding = 2,
+                ),
+                widget.Volume(
+                    emoji = True,
+                    update_interval = 0.2,
+                    padding = 0,
+                    mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('amixer set Master 1+ toggle')},
+                ),
+                widget.TextBox(
+                    text = " ",
+                    padding = 0,
+                ),
+                widget.Volume(
+                    fontsize = 12,
+                    emoji = False,
+                    update_interval = 0.2,
+                    padding = 0,
+                    mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('amixer set Master 1+ toggle')},
+                ),
+                widget.TextBox(
+                    text = " ",
+                    padding = 2,
+                ),
+                widget.Clock(
+                    format="(%a) %d-%m-%Y %H:%M",
+                    update_interval = 60,
+                    mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e calcurse')},
+                ),
+            ],
+            26, background=colors[0], margin=[0, 0, 5, 0], opacity=1,
+        ),
+        right=bar.Gap(5),
+        left=bar.Gap(5),
+        bottom=bar.Gap(5),
+    ),
+]
+
+# Drag floating layouts.
+mouse = [
+    Drag([mod], "Button1", lazy.window.set_position_floating(),
+         start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(),
+         start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front())
+]
+
+dgroups_key_binder = None
+dgroups_app_rules = []  # type: List
+follow_mouse_focus = True
+bring_front_click = False
+cursor_warp = False
+floating_layout = layout.Floating(float_rules=[
+    # Run the utility of `xprop` to see the wm class and name of an X client.
+    *layout.Floating.default_float_rules,
+    Match(wm_class='confirmreset'),  # gitk
+    Match(wm_class='makebranch'),  # gitk
+    Match(wm_class='maketag'),  # gitk
+    Match(wm_class='ssh-askpass'),  # ssh-askpass
+    Match(title='branchdialog'),  # gitk
+    Match(title='pinentry'),  # GPG key password entry
+])
+auto_fullscreen = True
+focus_on_window_activation = "smart"
+reconfigure_screens = True
+
+# If things like steam games want to auto-minimize themselves when losing
+# focus, should we respect this or not?
+auto_minimize = True
+
+# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
+# string besides java UI toolkits; you can see several discussions on the
+# mailing lists, GitHub issues, and other WM documentation that suggest setting
+# this string if your java app doesn't work correctly. We may as well just lie
+# and say that we're a working one by default.
+#
+# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
+# java that happens to be on java's whitelist.
+wmname = "LG3D"

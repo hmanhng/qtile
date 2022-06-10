@@ -1,15 +1,16 @@
 qtile
+alacritty
 intel-media-driver intel-gpu-tools
 pulseaudio-alsa alsa-utils
-lxappearance lxsession
-
+lightdm lightdm-webkit2-greeter
+xcape xclip
 libinput
 network-manager-applet
-python-pip
 picom
 rofi
 light
 deadd-notification-center-bin
+python-pip
 
 # Pkg
 stow
@@ -28,17 +29,22 @@ ibus-bamboo
 htop neofetch
 ookla-speedtest-bin
 redshift
-feh
+nitrogen
+screengrab
 
 # ThemesAndFont
 pop-gtk-theme
-pop-icon-theme
 # ttf-ubuntu-font-family
+tela-icon-theme
 ttc-iosevka
 xcursor-breeze
 
 # App
+xfce4-clipman-plugin
+mate-power-manager
+eog
 pavucontrol
+lxappearance
 # visual-studio-code-bin
 # microsoft-edge-stable-bin
 google-chrome

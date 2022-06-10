@@ -4,7 +4,6 @@ from typing import List  # noqa: F401
 
 from libqtile import hook
 
-from libqtile.extension.dmenu import DmenuRun
 from libqtile.extension.window_list import WindowList
 from libqtile.extension.command_set import CommandSet
 
@@ -24,12 +23,12 @@ from colors import gruvbox
 from bar_transparent_rounded import bar
 
 mod = "mod4"
-terminal = "kitty"
+terminal = "alacritty"
 # terminal = guess_terminal()
 
 keys = [
     # Launch applications
-    Key(["mod1"], 'F1', lazy.spawn('rofi -show drun -show-icons -location 1 -theme "themes" -font "Ubuntu 13"'), desc="Launch rofi"),
+    Key(["mod1"], 'F1', lazy.spawn('rofi -show drun -show-icons -location 1 -theme "themes" -font "Iosevka 15"'), desc="Launch rofi"),
     Key([mod], "w", lazy.spawn('google-chrome-stable'), desc="Launch browser"),
     # Key([mod], "e", lazy.spawn('kitty -e nnn -d -a -S'),
     #     desc="Launch nnn in home directory"),
@@ -40,49 +39,6 @@ keys = [
     # Command prompt
     # Key([mod], "p", lazy.spawncmd(),
     #     desc="Spawn a command using a prompt widget"),
-
-    # DmenuRun
-    Key([mod], 'p', lazy.run_extension(DmenuRun(
-        font="TerminessTTF Nerd Font",
-        fontsize="13",
-        dmenu_command="dmenu_run",
-        dmenu_prompt=" ",
-        dmenu_height=10,
-        dmenu_lines=15,
-        background=gruvbox['bg'],
-        foreground=gruvbox['fg'],
-        selected_foreground=gruvbox['dark-blue'],
-        selected_background=gruvbox['bg'],
-    ))),
-
-    Key([mod, "shift"], 'w', lazy.run_extension(WindowList(
-        all_groups=True,
-        font="TerminessTTF Nerd Font",
-        fontsize="13",
-        dmenu_prompt=" ",
-        dmenu_height=10,
-        # dmenu_lines=15,
-        background=gruvbox['bg'],
-        foreground=gruvbox['fg'],
-        selected_foreground=gruvbox['dark-blue'],
-        selected_background=gruvbox['bg'],
-    ))),
-
-    Key([mod, "control"], 'n', lazy.run_extension(CommandSet(
-        commands={
-            'Thesis notes': 'kitty nvim Neorg/Notes/Thesis/index.norg',
-            'Dev notes': 'kitty nvim Neorg/Notes/Dev/index.norg',
-            'JWL notes': 'kitty nvim Neorg/Notes/JWL/index.norg',
-            'YouTube notes': 'kitty nvim Neorg/YT/index.norg',
-        },
-        background=gruvbox['bg'],
-        foreground=gruvbox['fg'],
-        dmenu_prompt=' ',
-        dmenu_lines=10,
-        dmenu_height=10,
-        selected_foreground=gruvbox['blue'],
-        selected_background=gruvbox['bg'],
-    ))),
 
     # Toggle floating and fullscreen
     Key([mod], "f", lazy.window.toggle_fullscreen(),
@@ -144,6 +100,7 @@ keys = [
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume 0 +5%")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("light -A 10")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("light -U 10")),
+    Key([], "Print", lazy.spawn("screengrab")),
 ]
 
 groups = [
@@ -170,17 +127,17 @@ for i in groups:
 
 # Append scratchpad with dropdowns to groups
 groups.append(ScratchPad('scratchpad', [
-    DropDown('term', 'kitty', width=0.4, height=0.5, x=0.3, y=0.1, opacity=1, on_focus_lost_hide=False),
-    DropDown('mixer', 'pavucontrol', width=0.4,
-             height=0.6, x=0.3, y=0.1, opacity=1),
+    DropDown('term', 'alacritty', width=0.6, height=0.7, x=0.2, y=0.1, opacity=1, on_focus_lost_hide=False),
+    DropDown('pcman', 'pcmanfm', width=0.6,
+             height=0.7, x=0.2, y=0.1, opacity=1, on_focus_lost_hide=False),
     DropDown('pomo', 'pomotroid', x=0.4, y=0.2, opacity=1),
     DropDown('bitwarden', 'bitwarden-desktop',
-             width=0.4, height=0.6, x=0.3, y=0.1, opacity=1),
+             width=0.6, height=0.6, x=0.3, y=0.1, opacity=1),
 ]))
 # extend keys list with keybinding for scratchpad
 keys.extend([
     Key(["control"], "Escape", lazy.group['scratchpad'].dropdown_toggle('term')),
-    Key(["control"], "2", lazy.group['scratchpad'].dropdown_toggle('mixer')),
+    Key([mod], "e", lazy.group['scratchpad'].dropdown_toggle('pcman')),
     Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('pomo')),
     Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
 ])
@@ -214,14 +171,14 @@ floating_layout = Floating(
         Match(wm_class='maketag'),  # gitk
         Match(wm_class='ssh-askpass'),  # ssh-askpass
         Match(title='branchdialog'),  # gitk
-        Match(title='pinentry'),  # GPG key password entry
+        Match(wm_class='screengrab'),  # GPG key password entry
 
         Match(wm_class="gcolor3"),
         Match(wm_class="blueman-manager"),
         Match(wm_class="pavucontrol"),
-        Match(wm_class="zoom"),
+        Match(wm_class="pcmanfm"),
         Match(wm_class="bitwarden"),
-        Match(wm_class="nemo"),
+        Match(wm_class="eog"),
     ])
 
 # Drag floating layouts.
