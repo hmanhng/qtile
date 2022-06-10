@@ -1,17 +1,12 @@
 qtile
 intel-media-driver intel-gpu-tools
-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
-pulseaudio-alsa
+pulseaudio-alsa alsa-utils
+lxappearance lxsession
 
 libinput
 network-manager-applet
-redshift
-feh
 python-pip
 picom
-alsa-utils
-pavucontrol
-pipewire
 rofi
 light
 deadd-notification-center-bin
@@ -32,6 +27,8 @@ rust
 ibus-bamboo
 htop neofetch
 ookla-speedtest-bin
+redshift
+feh
 
 # ThemesAndFont
 pop-gtk-theme
@@ -41,6 +38,7 @@ ttc-iosevka
 xcursor-breeze
 
 # App
+pavucontrol
 # visual-studio-code-bin
 # microsoft-edge-stable-bin
 google-chrome
