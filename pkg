@@ -1,8 +1,9 @@
+xorg
 qtile
 alacritty
 intel-media-driver intel-gpu-tools
-pulseaudio-alsa alsa-utils
-lightdm lightdm-webkit2-greeter
+pulseaudio pulseaudio-bluetooth pulseaudio-alsa alsa-utils
+blueman
 xcape xclip
 libinput
 network-manager-applet
@@ -10,7 +11,7 @@ picom
 rofi
 light
 deadd-notification-center-bin
-python-pip
+python-iwlib python-psutil
 
 # Pkg
 stow
@@ -18,6 +19,7 @@ man-db
 reflector
 openssh
 wget
+unzip
 exa fd fzf ripgrep bat zoxide
 nftables
 
@@ -31,6 +33,7 @@ ookla-speedtest-bin
 redshift
 nitrogen
 screengrab
+caffeine-ng
 
 # ThemesAndFont
 pop-gtk-theme
@@ -40,6 +43,8 @@ ttc-iosevka
 xcursor-breeze
 
 # App
+vlc
+obs-studio
 xfce4-clipman-plugin
 mate-power-manager
 eog
