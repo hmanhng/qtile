@@ -172,6 +172,7 @@ floating_layout = Floating(
         Match(wm_class='ssh-askpass'),  # ssh-askpass
         Match(title='branchdialog'),  # gitk
         Match(wm_class='screengrab'),  # GPG key password entry
+        Match(wm_class='xdman-Main'),
 
         Match(wm_class="gcolor3"),
         Match(wm_class="blueman-manager"),
