@@ -1,0 +1,46 @@
+qtile
+intel-media-driver intel-gpu-tools
+pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+pulseaudio-alsa
+
+libinput
+network-manager-applet
+redshift
+feh
+python-pip
+picom
+alsa-utils
+pavucontrol
+pipewire
+rofi
+light
+deadd-notification-center-bin
+
+# Pkg
+stow
+man-db
+reflector
+openssh
+wget
+exa fd fzf ripgrep bat zoxide
+nftables
+
+clang
+dotnet-sdk
+rust
+
+ibus-bamboo
+htop neofetch
+ookla-speedtest-bin
+
+# ThemesAndFont
+pop-gtk-theme
+pop-icon-theme
+# ttf-ubuntu-font-family
+ttc-iosevka
+xcursor-breeze
+
+# App
+# visual-studio-code-bin
+# microsoft-edge-stable-bin
+google-chrome

@@ -1,0 +1,56 @@
+#!/bin/bash
+
+sudo true
+bash ./WinToGrub
+until git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si --noconfirm && cd .. && rm -rf yay-bin; do
+  rm -rf yay-bin
+  sleep 1
+done
+
+until yay -Sy --needed --batchinstall --removemake --nodiffmenu --noconfirm $(cat pkg | egrep -v "^\s*(#|$)"); do
+  sleep 1
+done
+
+#Xdman
+wget -q --show-progress https://github.com/hmanhng/xdm/raw/main/xdm.sh && sudo sh ./xdm.sh && rm -f xdm.sh
+
+curl -fsSL https://fnm.vercel.app/install | bash
+~/.fnm/fnm install 16.15.0
+
+git config --global user.email "hmanhng@icloud.com"
+git config --global user.name "hmanhng"
+
+sudo sed -i 's/#AutoEnable=false/AutoEnable=true/g' /etc/bluetooth/main.conf
+
+cp -rf dotfiles/. ~/
+sudo cp -rf ~/etc/* /etc && rm -rf ~/etc
+sudo cp -rf ~/usr/* /usr && rm -rf ~/usr
+
+# Fonts
+git clone https://github.com/hmanhng/WindowsFonts.git ~/WindowsFonts && rm -rf ~/WindowsFonts/.git && sudo mv ~/WindowsFonts/ /usr/share/fonts/ && sudo chmod 644 /usr/share/fonts/WindowsFonts/*
+git clone https://github.com/hmanhng/fonts.git ~/.local/share/fonts && rm -rf ~/.local/share/fonts/.git
+fc-cache --force
+
+# Applications
+wget -q --show-progress https://github.com/NyaMisty/AltServer-Linux/releases/download/v0.0.5/AltServer-x86_64 -O ~/Applications/AltServer-x86_64
+wget -q --show-progress https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-linux-x86_64.AppImage -O ~/Applications/rclone-browser.AppImage
+wget -q --show-progress https://github.com/realmazharhussain/gdm-settings/releases/download/v0.5.3/Login_Manager_Settings-nodeps.AppImage -O ~/Applications/gdm-settings.AppImage
+
+#GDM
+sudo cp ~/Pictures/icon.jpg /var/lib/AccountsService/icons/
+cp ~/Pictures/icon.jpg ~/.face
+sudo bash -c "cat dotfiles/icons > /var/lib/AccountsService/users/$USER" && rm ~/icons
+
+sudo systemctl enable systemd-timesyncd
+sudo systemctl enable bluetooth
+# sudo systemctl enable gdm
+
+sudo usermod -aG video $USER
+echo "ideapad_laptop" | sudo tee -a /etc/modules
+echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/tee /sys/bus/platform/drivers/ideapad_acpi/VPC????\:??/conservation_mode" | sudo tee -a /etc/sudoers.d/$USER
+sudo bash -c 'echo 259:2 > /sys/power/resume'
+sudo mkinitcpio -P
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+# Zsh
+sudo chsh $USER -s "/bin/zsh"
