@@ -14,6 +14,8 @@ done
 #Xdman
 wget -q --show-progress https://github.com/hmanhng/xdm/raw/main/xdm.sh && sudo sh ./xdm.sh && rm -f xdm.sh
 
+stow qtile
+
 curl -fsSL https://fnm.vercel.app/install | bash
 ~/.fnm/fnm install 16.15.0
 
