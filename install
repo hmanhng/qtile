@@ -57,7 +57,7 @@ sudo bash -c 'echo 259:2 > /sys/power/resume'
 sudo mkinitcpio -P
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-git clone https://github.com/hmanhng/dotfile.git ~/dotfiles && cd ~/dotfiles && ./install.sh zsh alacritty
+git clone https://github.com/hmanhng/dotfile.git ~/dotfiles && cd ~/dotfiles && ./install.sh zsh kitty
 
 # Zsh
 sudo chsh $USER -s "/bin/zsh"
