@@ -37,8 +37,8 @@ sudo cp -rf ~/usr/* /usr && rm -rf ~/usr
 fc-cache --force
 
 # Applications
-wget -q --show-progress https://github.com/NyaMisty/AltServer-Linux/releases/download/v0.0.5/AltServer-x86_64 -O ~/Applications/AltServer-x86_64
-wget -q --show-progress https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-linux-x86_64.AppImage -O ~/Applications/rclone-browser.AppImage
+wget -q --show-progress https://github.com/NyaMisty/AltServer-Linux/releases/download/v0.0.5/AltServer-x86_64 -O ~/.local/bin/AltServer-x86_64
+wget -q --show-progress https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-linux-x86_64.AppImage -O ~/.local/bin/rclone-browser.AppImage
 
 # dm
 sudo cp ~/Pictures/icon.jpg /var/lib/AccountsService/icons/
