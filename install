@@ -1,6 +1,6 @@
 #!/bin/bash
 
-doas true
+sudo true
 bash ./WinToGrub
 until git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si --noconfirm && cd .. && rm -rf yay-bin; do
   rm -rf yay-bin
@@ -12,7 +12,7 @@ until yay -Sy --needed --batchinstall --removemake --nodiffmenu --noconfirm $(ca
 done
 
 #Xdman
-wget -q --show-progress https://github.com/hmanhng/xdm/raw/main/xdm.sh && doas sh ./xdm.sh && rm -f xdm.sh
+wget -q --show-progress https://github.com/hmanhng/xdm/raw/main/xdm.sh && sudo sh ./xdm.sh && rm -f xdm.sh
 
 stow qtile
 
@@ -22,17 +22,17 @@ curl -fsSL https://fnm.vercel.app/install | bash
 git config --global user.email "hmanhng@icloud.com"
 git config --global user.name "hmanhng"
 
-cat tmp/bamboo.txt | doas tee -a /etc/profile
+cat tmp/bamboo.txt | sudo tee -a /etc/profile
 env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['xkb:us::eng', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
 
-doas sed -i 's/#AutoEnable=false/AutoEnable=true/g' /etc/bluetooth/main.conf
+sudo sed -i 's/#AutoEnable=false/AutoEnable=true/g' /etc/bluetooth/main.conf
 
 cp -rf dotfiles/. ~/
-doas cp -rf ~/etc/* /etc && rm -rf ~/etc
-doas cp -rf ~/usr/* /usr && rm -rf ~/usr
+sudo cp -rf ~/etc/* /etc && rm -rf ~/etc
+sudo cp -rf ~/usr/* /usr && rm -rf ~/usr
 
 # Fonts
-# git clone https://github.com/hmanhng/WindowsFonts.git ~/WindowsFonts && rm -rf ~/WindowsFonts/.git && doas mv ~/WindowsFonts/ /usr/share/fonts/ && doas chmod 644 /usr/share/fonts/WindowsFonts/*
+# git clone https://github.com/hmanhng/WindowsFonts.git ~/WindowsFonts && rm -rf ~/WindowsFonts/.git && sudo mv ~/WindowsFonts/ /usr/share/fonts/ && sudo chmod 644 /usr/share/fonts/WindowsFonts/*
 # git clone https://github.com/hmanhng/fonts.git ~/.local/share/fonts && rm -rf ~/.local/share/fonts/.git
 # fc-cache --force
 
@@ -41,21 +41,21 @@ wget -q --show-progress https://github.com/NyaMisty/AltServer-Linux/releases/dow
 wget -q --show-progress https://github.com/kapitainsky/RcloneBrowser/releases/download/1.8.0/rclone-browser-1.8.0-a0b66c6-linux-x86_64.AppImage -O ~/.local/bin/rclone-browser.AppImage
 
 # dm
-doas cp ~/Pictures/icon.jpg /var/lib/AccountsService/icons/
+sudo cp ~/Pictures/icon.jpg /var/lib/AccountsService/icons/
 cp ~/Pictures/icon.jpg ~/.face
-doas bash -c "cat dotfiles/icons > /var/lib/AccountsService/users/$USER" && rm ~/icons
-doas systemctl enable gdm
+sudo bash -c "cat dotfiles/icons > /var/lib/AccountsService/users/$USER" && rm ~/icons
+sudo systemctl enable gdm
 
-doas systemctl enable systemd-timesyncd
-doas systemctl enable bluetooth
+sudo systemctl enable systemd-timesyncd
+sudo systemctl enable bluetooth
 
-doas usermod -aG video $USER
-echo "ideapad_laptop" | doas tee -a /etc/modules
-doas bash -c 'echo 259:2 > /sys/power/resume'
-doas mkinitcpio -P
-doas grub-mkconfig -o /boot/grub/grub.cfg
+sudo usermod -aG video $USER
+echo "ideapad_laptop" | sudo tee -a /etc/modules
+sudo bash -c 'echo 259:2 > /sys/power/resume'
+sudo mkinitcpio -P
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 git clone https://github.com/hmanhng/dotfile.git ~/dotfiles && cd ~/dotfiles && ./install.sh zsh kitty
 
 # Zsh
-doas chsh $USER -s "/bin/zsh"
+sudo chsh $USER -s "/bin/zsh"
