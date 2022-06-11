@@ -4,9 +4,6 @@ from typing import List  # noqa: F401
 
 from libqtile import hook
 
-from libqtile.extension.window_list import WindowList
-from libqtile.extension.command_set import CommandSet
-
 # import layout objects
 from libqtile.layout.xmonad import MonadTall
 from libqtile.layout.stack import Stack
@@ -23,12 +20,12 @@ from colors import gruvbox
 from bar_transparent_rounded import bar
 
 mod = "mod4"
-terminal = "alacritty"
+terminal = "kitty"
 # terminal = guess_terminal()
 
 keys = [
     # Launch applications
-    Key(["mod1"], 'F1', lazy.spawn('rofi -show drun -show-icons -location 1 -theme "themes" -font "Iosevka 15"'), desc="Launch rofi"),
+    Key(["mod1"], 'F1', lazy.spawn('rofi -show drun -show-icons -theme "Pop-Dark" -font "Iosevka 16"'), desc="Launch rofi"),
     Key([mod], "w", lazy.spawn('google-chrome-stable'), desc="Launch browser"),
     # Key([mod], "e", lazy.spawn('kitty -e nnn -d -a -S'),
     #     desc="Launch nnn in home directory"),
@@ -127,7 +124,7 @@ for i in groups:
 
 # Append scratchpad with dropdowns to groups
 groups.append(ScratchPad('scratchpad', [
-    DropDown('term', 'alacritty', width=0.6, height=0.7, x=0.2, y=0.1, opacity=1, on_focus_lost_hide=False),
+    DropDown('term', 'kitty', width=0.6, height=0.8, x=0.2, y=0.1, opacity=1, on_focus_lost_hide=False),
     DropDown('pcman', 'pcmanfm', width=0.6,
              height=0.7, x=0.2, y=0.1, opacity=1, on_focus_lost_hide=False),
     DropDown('pomo', 'pomotroid', x=0.4, y=0.2, opacity=1),
@@ -171,14 +168,14 @@ floating_layout = Floating(
         Match(wm_class='maketag'),  # gitk
         Match(wm_class='ssh-askpass'),  # ssh-askpass
         Match(title='branchdialog'),  # gitk
-        Match(wm_class='screengrab'),  # GPG key password entry
+        Match(wm_class='clash for windows'),  # GPG key password entry
         Match(wm_class='xdman-Main'),
 
         Match(wm_class="gcolor3"),
         Match(wm_class="blueman-manager"),
         Match(wm_class="pavucontrol"),
         Match(wm_class="pcmanfm"),
-        Match(wm_class="bitwarden"),
+        Match(wm_class="oblogout"),
         Match(wm_class="eog"),
     ])
 
@@ -204,7 +201,7 @@ screens = [Screen(top=bar)]
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
-# bring_front_click = ''
+bring_front_click = ''
 cursor_warp = False
 auto_fullscreen = True
 focus_on_window_activation = "smart"

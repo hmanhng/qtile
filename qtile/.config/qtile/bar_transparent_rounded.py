@@ -83,6 +83,12 @@ bar = Bar([
         backlight_name='intel_backlight',
         change_command='light -S {0}',
     ),
+    widget.Battery(
+        battery='BAT1',
+        format='  {percent:2.0%}',
+        background='#a8bdbe',
+        mouse_callbacks={"Button3": lazy.spawn('mate-power-preferences')},
+    ),
     widget.Clock(
         background=gruvbox['cyan'],
         format=' %Y-%m-%d %a %H:%M'),

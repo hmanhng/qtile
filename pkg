@@ -1,8 +1,9 @@
-xorg
 qtile
-alacritty
 intel-media-driver intel-gpu-tools
 pulseaudio pulseaudio-bluetooth pulseaudio-alsa alsa-utils
+pavucontrol
+zsh starship
+kitty
 blueman
 xcape xclip
 libinput
@@ -10,7 +11,7 @@ network-manager-applet
 picom
 rofi
 light
-deadd-notification-center-bin
+# deadd-notification-center-bin
 python-iwlib python-psutil
 
 # Pkg
@@ -28,11 +29,10 @@ dotnet-sdk
 rust
 
 ibus-bamboo
-htop neofetch
+btop neofetch
 ookla-speedtest-bin
 redshift
 nitrogen
-screengrab
 caffeine-ng
 
 # ThemesAndFont
@@ -45,10 +45,10 @@ xcursor-breeze
 # App
 vlc
 obs-studio
+xfce4-screenshooter
 xfce4-clipman-plugin
 mate-power-manager
 eog
-pavucontrol
 lxappearance
 # visual-studio-code-bin
 # microsoft-edge-stable-bin
