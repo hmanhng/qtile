@@ -51,7 +51,6 @@ doas systemctl enable bluetooth
 
 doas usermod -aG video $USER
 echo "ideapad_laptop" | doas tee -a /etc/modules
-echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/tee /sys/bus/platform/drivers/ideapad_acpi/VPC????\:??/conservation_mode" | doas tee -a /etc/doasers.d/$USER
 doas bash -c 'echo 259:2 > /sys/power/resume'
 doas mkinitcpio -P
 doas grub-mkconfig -o /boot/grub/grub.cfg
