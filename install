@@ -44,7 +44,8 @@ wget -q --show-progress https://github.com/kapitainsky/RcloneBrowser/releases/do
 doas cp ~/Pictures/icon.jpg /var/lib/AccountsService/icons/
 cp ~/Pictures/icon.jpg ~/.face
 doas bash -c "cat dotfiles/icons > /var/lib/AccountsService/users/$USER" && rm ~/icons
-doas systemctl enable gdm
+doas systemctl enable ly
+doas systemctl enable betterlockscreen@$USER
 
 doas systemctl enable systemd-timesyncd
 doas systemctl enable bluetooth

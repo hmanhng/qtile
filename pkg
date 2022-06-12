@@ -1,6 +1,7 @@
 xorg-server xorg-xrdb
 qtile
-gdm
+ly
+betterlockscreen
 intel-media-driver intel-gpu-tools
 pulseaudio pulseaudio-bluetooth pulseaudio-alsa alsa-utils
 pavucontrol
@@ -27,6 +28,7 @@ exa fd fzf ripgrep bat zoxide
 nftables
 udiskie
 pcmanfm
+xdg-user-dirs
 
 clang
 dotnet-sdk
