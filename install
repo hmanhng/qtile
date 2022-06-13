@@ -21,7 +21,6 @@ doas cp -rf ~/etc/* /etc && rm -rf ~/etc
 doas cp -rf ~/usr/* /usr && rm -rf ~/usr
 
 stow qtile
-git clone https://github.com/hmanhng/dotfile.git ~/dotfiles && cd ~/dotfiles && ./install.sh zsh kitty
 
 # Zsh
 doas chsh $USER -s "/bin/zsh"
@@ -57,3 +56,5 @@ echo "ideapad_laptop" | doas tee -a /etc/modules
 doas bash -c 'echo 259:2 > /sys/power/resume'
 doas mkinitcpio -P
 doas grub-mkconfig -o /boot/grub/grub.cfg
+
+git clone https://github.com/hmanhng/dotfile.git ~/dotfiles && cd ~/dotfiles && ./install.sh zsh kitty
