@@ -188,7 +188,7 @@ mouse = [
     Click([mod], "Button2", lazy.window.bring_to_front())
 ]
 widget_defaults = dict(
-    font='Iosevka Nerd Font',
+    font='Iosevka Nerd Font Semibold',
     fontsize=15,
     padding=10,
     foreground=gruvbox['bg'],

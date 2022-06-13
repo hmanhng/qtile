@@ -6,6 +6,7 @@ from libqtile import widget
 from libqtile.lazy import lazy
 
 from colors import gruvbox
+from unicodes import lower_left_triangle
 
 bar = Bar([
     widget.TextBox(
@@ -23,32 +24,37 @@ bar = Bar([
         borderwidth=0,
         highlight_color=gruvbox['bg'],
         background=gruvbox['bg'],
-        fontsize=17,
+        fontsize=30,
     ),
-    widget.Spacer(
-        length=10,
-    ),
+    # widget.Spacer(
+    #     length=10,
+    # ),
+    lower_left_triangle(gruvbox['bg'], gruvbox['dark-yellow']),
     widget.CurrentLayoutIcon(
-        custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
+        # custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
         background = gruvbox['dark-yellow'],
-        padding = 0,
+        padding = 5,
         scale = 0.7
     ),
-    widget.CurrentLayout(
-        background=gruvbox['dark-yellow'],
-        padding=5,
-        fontsize=16,
-    ),
+    # widget.CurrentLayout(
+    #     background=gruvbox['dark-yellow'],
+    #     padding=5,
+    #     fontsize=16,
+    # ),
+    lower_left_triangle(gruvbox['dark-yellow'], gruvbox['magenta']),
     widget.WindowCount(
-        text_format='缾 {num}',
+        text_format=' 缾 {num} ',
         background=gruvbox['magenta'],
-        fontsize=16,
+        fontsize=17,
         show_zero=True,
+        padding=-5
     ),
+    lower_left_triangle(gruvbox['magenta'], gruvbox['bg']),
 
     widget.WindowName(
-        foreground='#ffffff',
-        fontsize=16,
+        foreground='#fafafa',
+        fontsize=17,
+        font='Iosevka',
     ),
 
     # Spacer(length=100),
@@ -58,10 +64,10 @@ bar = Bar([
         format=' {freq_current}GHz {load_percent}%',
         background=gruvbox['dark-cyan']),
     widget.Memory(
-        format='{MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
+        format='{MemUsed: .0f}{mm} /{MemTotal:.0f}{mm}',
         background=gruvbox['dark-magenta']),
     widget.Net(
-        format='龍 {down} ↓↑ {up}',
+        format='龍 {down} ↓↑{up}',
         background=gruvbox['dark-blue'],
     ),
     # widget.Wlan(
@@ -71,27 +77,30 @@ bar = Bar([
     #     format='{essid} {percent:2.0%}',
     # ),
     widget.Volume(
-        fmt=' {}',
+        fmt=' {}',
         background='#a8bdbe',
         volume_up_command='pactl -- set-sink-volume 0 +5%',
         volume_down_command='pactl -- set-sink-volume 0 -5%',
         mouse_callbacks={"Button3": lazy.spawn('pavucontrol')},
+        # padding=-1
         ),
     widget.Backlight(
         background='#a8bdbe',
-        fmt=' {}',
+        fmt='  {} ',
         backlight_name='intel_backlight',
         change_command='light -S {0}',
+        padding=-5
     ),
     widget.Battery(
         battery='BAT1',
-        format='  {percent:2.0%}',
+        format=' {percent:2.0%}',
         background='#a8bdbe',
-        mouse_callbacks={"Button3": lazy.spawn('mate-power-preferences')},
+        mouse_callbacks={"Button3": lazy.spawn('xfce4-power-manager-settings')},
     ),
     widget.Clock(
         background=gruvbox['cyan'],
-        format=' %Y-%m-%d %a %H:%M'),
+        format=' %d-%m-%Y [ %H:%M ]',
+    ),
     # Prompt(foreground=gruvbox['fg']),
     widget.Systray(
         # padding=10,

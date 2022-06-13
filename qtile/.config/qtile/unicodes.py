@@ -20,8 +20,8 @@ def right_half_circle(fg_color):
 def lower_left_triangle(bg_color, fg_color):
     return TextBox(
         text='\u25e2',
-        padding=0,
-        fontsize=50,
+        padding=-4,
+        fontsize=66,
         background=bg_color,
         foreground=fg_color)
 

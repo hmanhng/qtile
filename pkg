@@ -10,7 +10,7 @@ kitty
 blueman
 xcape xclip
 libinput
-network-manager-applet
+network-manager-applet nftables
 picom
 rofi
 light
@@ -25,7 +25,6 @@ openssh
 wget
 unzip
 exa fd fzf ripgrep bat zoxide
-nftables
 udiskie
 pcmanfm
 xdg-user-dirs
