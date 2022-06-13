@@ -1,0 +1,12 @@
+[desktop/ibus/general]
+engines-order=['Bamboo']
+preload-engines=['Bamboo']
+
+[desktop/ibus/panel]
+show-icon-on-systray=false
+
+[org/gnome/desktop/input-sources]
+sources=[('ibus', 'Bamboo')]
+
+[org/gnome/nm-applet]
+disable-connected-notifications=true

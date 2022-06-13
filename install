@@ -32,7 +32,7 @@ git config --global user.email "hmanhng@icloud.com"
 git config --global user.name "hmanhng"
 
 cat tmp/bamboo.txt | doas tee -a /etc/profile
-env DCONF_PROFILE=ibus dconf write /desktop/ibus/general/preload-engines "['xkb:us::eng', 'Bamboo']" && gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('ibus', 'Bamboo')]"
+dconf load / < tmp/settings.dconf
 
 doas sed -i 's/#AutoEnable=false/AutoEnable=true/g' /etc/bluetooth/main.conf
 
