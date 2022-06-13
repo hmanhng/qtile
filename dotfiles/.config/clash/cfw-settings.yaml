@@ -1,0 +1,31 @@
+showNewVersionIcon: true
+hideAfterStartup: true
+randomControllerPort: true
+runTimeFormat: "hh : mm : ss"
+trayOrders:
+  - - icon
+  - - status
+    - traffic
+    - text
+hideTrayIcon: false
+randomMixedPort: true
+connProxy: 2
+connProfile: true
+connMode: true
+connChainType: 2
+mixinText: |-
+  mixin: # object
+      dns:
+          enable: true
+          enhanced-mode: fake-ip
+          nameserver:
+              - 114.114.114.114
+              - 223.5.5.5
+              - 8.8.8.8
+          fallback: []
+          fake-ip-filter: []
+      tun:
+          enable: true
+          stack: system
+          dns-hijack:
+          - 198.18.0.2:53
