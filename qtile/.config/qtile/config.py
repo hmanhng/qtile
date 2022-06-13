@@ -143,7 +143,7 @@ layouts = [
     Stack(
         border_normal=gruvbox['dark-gray'],
         border_focus=gruvbox['blue'],
-        # border_width=2,
+        border_width=0,
         num_stacks=1,
         margin=0,
     ),
@@ -159,8 +159,8 @@ layouts = [
 
 floating_layout = Floating(
     border_normal=gruvbox['dark-gray'],
-    border_focus=gruvbox['red'],
-    border_width=3,
+    border_focus='#b2e0df',
+    border_width=2,
     float_rules=[
         *Floating.default_float_rules,
         Match(wm_class='confirmreset'),  # gitk
