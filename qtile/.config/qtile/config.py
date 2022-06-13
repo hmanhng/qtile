@@ -93,11 +93,14 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute 0 toggle")),
+    Key(["control"], "1", lazy.spawn("pactl set-sink-mute 0 toggle")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume 0 -5%")),
+    Key(["control"], "2", lazy.spawn("pactl set-sink-volume 0 -5%")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume 0 +5%")),
+    Key(["control"], "3", lazy.spawn("pactl set-sink-volume 0 +5%")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("light -A 10")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("light -U 10")),
-    Key([], "Print", lazy.spawn("screengrab")),
+    Key([], "Print", lazy.spawn("xfce4-screenshooter")),
 ]
 
 groups = [
@@ -135,8 +138,8 @@ groups.append(ScratchPad('scratchpad', [
 keys.extend([
     Key(["control"], "Escape", lazy.group['scratchpad'].dropdown_toggle('term')),
     Key([mod], "e", lazy.group['scratchpad'].dropdown_toggle('pcman')),
-    Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('pomo')),
-    Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
+    # Key(["control"], "3", lazy.group['scratchpad'].dropdown_toggle('pomo')),
+    # Key(["control"], "4", lazy.group['scratchpad'].dropdown_toggle('bitwarden')),
 ])
 
 layouts = [
