@@ -36,6 +36,8 @@ dconf load / < tmp/settings.dconf
 
 doas sed -i 's/#AutoEnable=false/AutoEnable=true/g' /etc/bluetooth/main.conf
 
+betterlockscreen -u Pictures/1653560838573_wallhaven-l3wx2p.png
+
 # Fonts
 # git clone https://github.com/hmanhng/WindowsFonts.git ~/WindowsFonts && rm -rf ~/WindowsFonts/.git && doas mv ~/WindowsFonts/ /usr/share/fonts/ && doas chmod 644 /usr/share/fonts/WindowsFonts/*
 # git clone https://github.com/hmanhng/fonts.git ~/.local/share/fonts && rm -rf ~/.local/share/fonts/.git
