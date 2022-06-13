@@ -14,8 +14,7 @@ done
 wget -q --show-progress https://github.com/hmanhng/xdm/raw/main/xdm.sh && doas sh ./xdm.sh && rm -f xdm.sh
 
 curl -fsSL https://fnm.vercel.app/install | bash
-export PATH=/home/hmanhng/.fnm:$PATH
-eval "`fnm env`"
+~/.fnm/fnm install 16.15.0
 
 cp -rf dotfiles/. ~/
 doas cp -rf ~/etc/* /etc && rm -rf ~/etc
@@ -23,13 +22,12 @@ doas cp -rf ~/usr/* /usr && rm -rf ~/usr
 
 stow qtile
 git clone https://github.com/hmanhng/dotfile.git ~/dotfiles && cd ~/dotfiles && ./install.sh zsh kitty
-bash ./lvim
 
 # Zsh
 doas chsh $USER -s "/bin/zsh"
 
-git config --global user.email "hmanhng@icloud.com"
-git config --global user.name "hmanhng"
+git config --global user.email "$USER@icloud.com"
+git config --global user.name "$USER"
 
 cat tmp/bamboo.txt | doas tee -a /etc/profile
 dconf load / < tmp/settings.dconf
