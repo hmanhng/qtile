@@ -14,7 +14,6 @@ network-manager-applet nftables
 picom
 rofi
 light
-deadd-notification-center-bin
 python-pip
 mkinitcpio-firmware
 
