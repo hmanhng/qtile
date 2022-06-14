@@ -15,7 +15,7 @@ picom
 rofi
 light
 deadd-notification-center-bin
-python-iwlib python-psutil
+python-pip
 mkinitcpio-firmware
 
 # Pkg
@@ -28,6 +28,7 @@ exa fd fzf ripgrep bat zoxide
 udiskie
 pcmanfm
 xdg-user-dirs
+# wireless_tools
 
 clang
 dotnet-sdk

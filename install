@@ -20,6 +20,7 @@ cp -rf dotfiles/. ~/
 doas cp -rf ~/etc/* /etc && rm -rf ~/etc
 doas cp -rf ~/usr/* /usr && rm -rf ~/usr
 
+pip install psutil
 stow qtile
 
 # Zsh
@@ -49,7 +50,7 @@ doas systemctl enable systemd-timesyncd
 doas systemctl enable bluetooth
 doas systemctl enable clash-core-service@$USER
 
-doas usermod -aG video $USER
+doas usermod -aG video $USER # Permission for light
 echo "ideapad_laptop" | doas tee -a /etc/modules
 doas bash -c 'echo 259:2 > /sys/power/resume'
 doas mkinitcpio -P
