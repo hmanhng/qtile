@@ -4,7 +4,7 @@ redshift &
 caffeine &
 xcape -e 'Super_L=Alt_L|F1'
 # nitrogen --restore &
-nowater -T
+nowater -T &
 nm-applet &
 blueman-applet &
 picom &
