@@ -20,10 +20,8 @@ cp -rf dotfiles/. ~/
 doas cp -rf ~/etc/* /etc && rm -rf ~/etc
 doas cp -rf ~/usr/* /usr && rm -rf ~/usr
 
-echo -n "Config qtile" && read a
 pip install psutil
 stow qtile
-echo -n "Succesfull" && read a
 
 # Zsh
 doas chsh $USER -s "/bin/zsh"
