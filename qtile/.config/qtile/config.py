@@ -153,7 +153,7 @@ layouts = [
     MonadTall(
         border_normal=gruvbox['dark-gray'],
         border_focus=gruvbox['yellow'],
-        margin=10,
+        margin=5,
         border_width=2,
         single_border_width=0,
         single_margin=0,
