@@ -6,7 +6,7 @@ intel-media-driver intel-gpu-tools
 pulseaudio pulseaudio-bluetooth pulseaudio-alsa alsa-utils
 pavucontrol
 zsh starship
-kitty
+alacritty
 blueman
 xcape xclip
 libinput

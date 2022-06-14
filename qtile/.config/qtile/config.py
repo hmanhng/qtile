@@ -20,14 +20,14 @@ from colors import gruvbox
 from bar_transparent_rounded import bar
 
 mod = "mod4"
-terminal = "kitty"
+terminal = "alacritty"
 # terminal = guess_terminal()
 
 keys = [
     # Launch applications
     Key(["mod1"], 'F1', lazy.spawn('rofi -show drun -show-icons -theme "Pop-Dark" -font "Iosevka 16"'), desc="Launch rofi"),
     Key([mod], "w", lazy.spawn('google-chrome-stable'), desc="Launch browser"),
-    # Key([mod], "e", lazy.spawn('kitty -e nnn -d -a -S'),
+    # Key([mod], "e", lazy.spawn('alacritty -e nnn -d -a -S'),
     #     desc="Launch nnn in home directory"),
     Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
     Key([mod], "s", lazy.spawn('obs'), desc="Launch OBS"),
@@ -127,7 +127,7 @@ for i in groups:
 
 # Append scratchpad with dropdowns to groups
 groups.append(ScratchPad('scratchpad', [
-    DropDown('term', 'kitty', width=0.6, height=0.8, x=0.2, y=0.1, opacity=1, on_focus_lost_hide=False),
+    DropDown('term', 'alacritty', width=0.6, height=0.8, x=0.2, y=0.1, opacity=1, on_focus_lost_hide=False),
     DropDown('pcman', 'pcmanfm', width=0.6,
              height=0.7, x=0.2, y=0.1, opacity=1, on_focus_lost_hide=False),
     DropDown('pomo', 'pomotroid', x=0.4, y=0.2, opacity=1),
@@ -155,7 +155,7 @@ layouts = [
         border_focus=gruvbox['yellow'],
         margin=10,
         border_width=2,
-        single_border_width=1,
+        single_border_width=0,
         single_margin=0,
     ),
 ]
