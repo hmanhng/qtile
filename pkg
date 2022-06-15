@@ -1,3 +1,5 @@
+#!/bin/bash
+
 xorg-server xorg-xrdb
 qtile
 ly
@@ -58,8 +60,8 @@ xfce4-power-manager
 eog
 lxappearance
 # visual-studio-code-bin
-# microsoft-edge-stable-bin
-google-chrome
+microsoft-edge-stable-bin
+# google-chrome
 xreader
 spotify
 discord
