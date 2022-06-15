@@ -26,7 +26,8 @@ terminal = "alacritty"
 keys = [
     # Launch applications
     Key(["mod1"], 'F1', lazy.spawn('rofi -show drun -show-icons -theme "Pop-Dark" -font "Iosevka 16"'), desc="Launch rofi"),
-    Key([mod], "w", lazy.spawn('google-chrome-stable'), desc="Launch browser"),
+    Key([mod], "w", lazy.spawn('microsoft-edge-stable'), desc="Launch browser"),
+    # Key([mod], "w", lazy.spawn('google-chrome-stable'), desc="Launch browser"),
     # Key([mod], "e", lazy.spawn('alacritty -e nnn -d -a -S'),
     #     desc="Launch nnn in home directory"),
     Key([mod], "d", lazy.spawn('discord'), desc="Launch discord"),
