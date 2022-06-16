@@ -27,7 +27,7 @@ wget
 unzip
 exa fd fzf ripgrep bat zoxide
 udiskie
-pcmanfm
+pcmanfm gvfs
 xdg-user-dirs
 # wireless_tools
 
